@@ -12,16 +12,13 @@ resources:
     type: github
     endpoint: chkp-rolandop
     name: chkp-rolandop/cloudguard-iac-noncompliant-terraform
-  - repository: spectra-goat
-    type: git
-    name: shiftleft-azure-devops
 
 jobs:
 - job: SpectralScanning_Secrets
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-  - checkout: shiftleft-azure-devops
+  - checkout: demo-app
   - script: curl -L 'https://get.spectralops.io/latest/x/sh?dsn=$(SPECTRAL_DSN)' | sh
     displayName: 'Install Spectral'
   - script: $HOME/.spectral/spectral scan --ok --dsn $(SPECTRAL_DSN) --include-tags base,audit3
@@ -31,7 +28,7 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-  - checkout: shiftleft-azure-devops
+  - checkout: demo-app
   - script: curl -L 'https://get.spectralops.io/latest/x/sh?dsn=$(SPECTRAL_DSN)' | sh
     displayName: 'Install Spectral'
   - script: $HOME/.spectral/spectral scan --ok --dsn $(SPECTRAL_DSN) --include-tags iac
