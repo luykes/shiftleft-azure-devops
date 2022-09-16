@@ -12,8 +12,9 @@ resources:
     type: github
     endpoint: chkp-rolandop
     name: chkp-rolandop/cloudguard-iac-noncompliant-terraform
-  - repository: shiftleft-azure-devops
+  - repository: spectra-goat
     type: git
+    name: shiftleft-azure-devops
 
 jobs:
 - job: SpectralScanning_Secrets
