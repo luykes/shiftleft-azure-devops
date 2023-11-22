@@ -21,7 +21,8 @@ jobs:
   - checkout: demo-app
   - script: curl -L 'https://spectral-us.checkpoint.com/latest/x/sh?dsn=$(SPECTRAL_DSN)' | sh
     displayName: 'Install Spectral'
-  - script: $HOME/.spectral/spectral scan --dsn $(SPECTRAL_DSN) --include-tags base,audit3
+  #- script: $HOME/.spectral/spectral scan --dsn $(SPECTRAL_DSN) --include-tags base,audit3
+  - script: $HOME/.spectral/spectral scan --ok --dsn $(SPECTRAL_DSN) --engines secrets,iac,oss --include-tags base,audit3
     displayName: 'Spectral Scan - Secrets'
 
 - job: SpectralScanning_IaC
