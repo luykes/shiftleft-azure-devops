@@ -19,9 +19,9 @@ jobs:
     vmImage: 'ubuntu-latest'
   steps:
   - checkout: demo-app
-  - script: curl -L 'https://get.spectralops.io/latest/x/sh?dsn=$spu-77ab34ae837f4a1dab088c0493d67f67' | sh
+  - script: curl -L 'https://get.spectralops.io/latest/x/sh?dsn=$(SPECTRAL_DSN)' | sh
     displayName: 'Install Spectral'
-  - script: $HOME/.spectral/spectral scan --dsn $spu-77ab34ae837f4a1dab088c0493d67f67 --include-tags base,audit3
+  - script: $HOME/.spectral/spectral scan --dsn $(SPECTRAL_DSN) --include-tags base,audit3
     displayName: 'Spectral Scan - Secrets'
 
 - job: SpectralScanning_IaC
@@ -29,9 +29,9 @@ jobs:
     vmImage: 'ubuntu-latest'
   steps:
   - checkout: demo-app
-  - script: curl -L 'https://get.spectralops.io/latest/x/sh?dsn=$spu-77ab34ae837f4a1dab088c0493d67f67' | sh
+  - script: curl -L 'https://get.spectralops.io/latest/x/sh?dsn=$(SPECTRAL_DSN)' | sh
     displayName: 'Install Spectral'
-  - script: $HOME/.spectral/spectral scan --ok --dsn $spu-77ab34ae837f4a1dab088c0493d67f67 --include-tags iac
+  - script: $HOME/.spectral/spectral scan --ok --dsn $(SPECTRAL_DSN) --include-tags iac
     displayName: 'Spectral Scan - IaC'
 
 - job: SourceCodeScanning
@@ -48,9 +48,9 @@ jobs:
   - script: ./shiftleft code-scan -t 900 -e $CHKP_CLOUDGUARD_ENV -l ado=shiftleft-binary -r -2003 -s ./
     env:
       #Map secret variables to environment variables
-      CHKP_CLOUDGUARD_ID: $181efbbc-0144-4b2d-b615-96257e2e9f7b
-      CHKP_CLOUDGUARD_SECRET: $icqxbhz35fthwnxnmj5ku75c
-      CHKP_CLOUDGUARD_ENV: $bf860ae2-4784-42d4-90d7-d3c5f21b59e3
+      CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
+      CHKP_CLOUDGUARD_SECRET: $(CHKP_CLOUDGUARD_SECRET)
+      CHKP_CLOUDGUARD_ENV: $(CHKP_CLOUDGUARD_ENV)
     displayName: Running Source Code scan
 
 - job: SourceCodeScanningWithDocker
@@ -65,9 +65,9 @@ jobs:
   - script: shiftleft code-scan -t 900 -e $CHKP_CLOUDGUARD_ENV -l ado=shifleft-docker -r -2003 -s ./
     env:
       #Map secret variables to environment variables
-      CHKP_CLOUDGUARD_ID: $181efbbc-0144-4b2d-b615-96257e2e9f7b
-      CHKP_CLOUDGUARD_SECRET: $icqxbhz35fthwnxnmj5ku75c
-      CHKP_CLOUDGUARD_ENV: $bf860ae2-4784-42d4-90d7-d3c5f21b59e3
+      CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
+      CHKP_CLOUDGUARD_SECRET: $(CHKP_CLOUDGUARD_SECRET)
+      CHKP_CLOUDGUARD_ENV: $(CHKP_CLOUDGUARD_ENV)
     displayName: Running Source Code scan using ShiftLeft Docker image
 
 - job:  ContainerImageScan
@@ -89,8 +89,8 @@ jobs:
   - task: CmdLine@2
     env:
       #Need to map secret variable to environment variables
-      CHKP_CLOUDGUARD_ID: $181efbbc-0144-4b2d-b615-96257e2e9f7b
-      CHKP_CLOUDGUARD_SECRET: $icqxbhz35fthwnxnmj5ku75c
+      CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
+      CHKP_CLOUDGUARD_SECRET: $(CHKP_CLOUDGUARD_SECRET)
     inputs:
       script: |
         docker build -t demo-app .
@@ -106,8 +106,8 @@ jobs:
   - task: CmdLine@2
     env:
       #Map secret variables to environment variables
-      CHKP_CLOUDGUARD_ID: $181efbbc-0144-4b2d-b615-96257e2e9f7b
-      CHKP_CLOUDGUARD_SECRET: $icqxbhz35fthwnxnmj5ku75c
+      CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
+      CHKP_CLOUDGUARD_SECRET: $(CHKP_CLOUDGUARD_SECRET)
     inputs:
       script: |
         curl -G https://shiftleft-prod.s3.amazonaws.com/blades/shiftleft/bin/windows/amd64/0.0.36/shiftleft.exe -o shiftleft.exe
