@@ -53,23 +53,6 @@ jobs:
       CHKP_CLOUDGUARD_ENV: $(CHKP_CLOUDGUARD_ENV)
     displayName: Running Source Code scan
 
-- job: SourceCodeScanningWithDocker
-  pool:
-    vmImage: 'ubuntu-latest'
-    
-  container:
-    image: cpemergingtech.azurecr.io/shiftleft-bash:latest
-    endpoint: cpemergingtech
-  steps:
-  - checkout: demo-app
-  - script: shiftleft code-scan -t 900 -e $CHKP_CLOUDGUARD_ENV -l ado=shifleft-docker -r -2003 -s ./
-    env:
-      #Map secret variables to environment variables
-      CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
-      CHKP_CLOUDGUARD_SECRET: $(CHKP_CLOUDGUARD_SECRET)
-      CHKP_CLOUDGUARD_ENV: $(CHKP_CLOUDGUARD_ENV)
-    displayName: Running Source Code scan using ShiftLeft Docker image
-
 - job:  ContainerImageScan
   pool:
     vmImage: 'ubuntu-latest'
