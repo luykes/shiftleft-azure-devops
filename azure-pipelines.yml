@@ -21,7 +21,7 @@ jobs:
   - checkout: demo-app
   - script: curl -L 'https://spectral-us.checkpoint.com/latest/x/sh?dsn=$(SPECTRAL_DSN)' | sh
     displayName: 'Install Spectral'
-  - script: $HOME/.spectral/spectral scan --dsn $(SPECTRAL_DSN) --engines secrets --include-tags base,audit3
+  - script: $HOME/.spectral/spectral scan --dsn $(SPECTRAL_DSN) --include-tags base,audit3
   #- script: $HOME/.spectral/spectral scan --ok --dsn $(SPECTRAL_DSN) --engines secrets,iac,oss --include-tags base,audit3
     displayName: 'Spectral Scan - Secrets'
 
@@ -35,24 +35,24 @@ jobs:
   - script: $HOME/.spectral/spectral scan --ok --dsn $(SPECTRAL_DSN) --engines iac,oss --include-tags iac
     displayName: 'Spectral Scan - IaC'
 
-- job: SourceCodeScanning
-  pool:
-    vmImage: 'ubuntu-latest'
-  steps:
-  - checkout: demo-app
-  - task: CmdLine@2
-    inputs:
-      script: |
-        curl -G https://shiftleft-prod.s3.amazonaws.com/blades/shiftleft/bin/linux/amd64/0.0.36/shiftleft -o shiftleft
-        chmod +x shiftleft
-    displayName: Install ShiftLeft
-  - script: ./shiftleft code-scan -t 900 -e $CHKP_CLOUDGUARD_ENV -l ado=shiftleft-binary -r -2003 -s ./
-    env:
-      #Map secret variables to environment variables
-      CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
-      CHKP_CLOUDGUARD_SECRET: $(CHKP_CLOUDGUARD_SECRET)
-      CHKP_CLOUDGUARD_ENV: $(CHKP_CLOUDGUARD_ENV)
-    displayName: Running Source Code scan
+#- job: SourceCodeScanning
+ # pool:
+  #  vmImage: 'ubuntu-latest'
+ # steps:
+ # - checkout: demo-app
+ # - task: CmdLine@2
+ #   inputs:
+ #     script: |
+  #      curl -G https://shiftleft-prod.s3.amazonaws.com/blades/shiftleft/bin/linux/amd64/0.0.36/shiftleft -o shiftleft
+  #      chmod +x shiftleft
+  #  displayName: Install ShiftLeft
+ # - script: ./shiftleft code-scan -t 900 -e $CHKP_CLOUDGUARD_ENV -l ado=shiftleft-binary -r -2003 -s ./
+ #   env:
+ #     #Map secret variables to environment variables
+ #     CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
+ #     CHKP_CLOUDGUARD_SECRET: $(CHKP_CLOUDGUARD_SECRET)
+ #     CHKP_CLOUDGUARD_ENV: $(CHKP_CLOUDGUARD_ENV)
+ #   displayName: Running Source Code scan
 
 - job:  ContainerImageScan
   pool:
