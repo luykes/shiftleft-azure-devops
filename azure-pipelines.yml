@@ -80,19 +80,3 @@ jobs:
         docker save -o demo-app.tar demo-app
         ./shiftleft image-scan -i demo-app.tar
     displayName: Running Container Image scan
-
-- job: SourceCodeScanningOnWindows
-  pool:
-    vmImage: 'windows-latest'
-  steps:
-  - checkout: demo-app
-  - task: CmdLine@2
-    env:
-      #Map secret variables to environment variables
-      CHKP_CLOUDGUARD_ID: $(CHKP_CLOUDGUARD_ID)
-      CHKP_CLOUDGUARD_SECRET: $(CHKP_CLOUDGUARD_SECRET)
-    inputs:
-      script: |
-        curl -G https://shiftleft-prod.s3.amazonaws.com/blades/shiftleft/bin/windows/amd64/0.0.36/shiftleft.exe -o shiftleft.exe
-        shiftleft.exe code-scan -s ./
-    displayName: Running Source Code scan on Windows Agent
