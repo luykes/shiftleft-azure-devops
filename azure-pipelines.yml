@@ -19,9 +19,9 @@ jobs:
     vmImage: 'ubuntu-latest'
   steps:
   - checkout: demo-app
-  - script: curl -L 'https://get.spectralops.io/latest/x/sh?dsn=$https://spu-77ab34ae837f4a1dab088c0493d67f67@get.spectralops.io' | sh
+  - script: curl -L 'https://spectral-us.checkpoint.com/latest/x/sh?dsn=$(SPECTRAL_DSN)' | sh
     displayName: 'Install Spectral'
-  - script: $HOME/.spectral/spectral scan --dsn $https://spu-77ab34ae837f4a1dab088c0493d67f67@get.spectralops.io --include-tags base,audit3
+  - script: $HOME/.spectral/spectral scan --dsn $(SPECTRAL_DSN) --include-tags base,audit3
     displayName: 'Spectral Scan - Secrets'
 
 - job: SpectralScanning_IaC
@@ -29,9 +29,9 @@ jobs:
     vmImage: 'ubuntu-latest'
   steps:
   - checkout: demo-app
-  - script: curl -L 'https://get.spectralops.io/latest/x/sh?dsn=$https://spu-77ab34ae837f4a1dab088c0493d67f67@get.spectralops.io' | sh
+  - script: curl -L 'https://spectral-us.checkpoint.com/latest/x/sh?dsn=$(SPECTRAL_DSN)' | sh
     displayName: 'Install Spectral'
-  - script: $HOME/.spectral/spectral scan --ok --dsn $https://spu-77ab34ae837f4a1dab088c0493d67f67@get.spectralops.io --include-tags iac
+  - script: $HOME/.spectral/spectral scan --ok --dsn $(SPECTRAL_DSN) --include-tags iac
     displayName: 'Spectral Scan - IaC'
 
 - job: SourceCodeScanning
