@@ -6,8 +6,8 @@ resources:
   repositories:
   - repository: demo-app
     type: github
-    endpoint: chkp-rolandop
-    name: chkp-rolandop/demo-app
+    endpoint: luykes
+    name: luykes/demo-app
   - repository: iac-noncompliant
     type: github
     endpoint: chkp-rolandop
