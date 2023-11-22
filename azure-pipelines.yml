@@ -10,8 +10,8 @@ resources:
     name: luykes/demo-app
   - repository: iac-noncompliant
     type: github
-    endpoint: chkp-rolandop
-    name: chkp-rolandop/cloudguard-iac-noncompliant-terraform
+    endpoint: luykes
+    name: luykes/cloudguard-iac-noncompliant-terraform
 
 jobs:
 - job: SpectralScanning_Secrets
